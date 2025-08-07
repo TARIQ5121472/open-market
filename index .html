@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="ur" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اوپن بازار - open bazar</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #0066cc;
+            --secondary: #004d99;
+            --accent: #ffc107;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #28a745;
+            --danger: #dc3545;
+            --warning: #fd7e14;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Nastaliq Urdu', 'Roboto', sans-serif;
+            background-color: #f5f5f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* ہیڈر سٹائلز */
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo img {
+            height: 40px;
+        }
+
+        .logo-text {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        .btn {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .btn-primary {
+            background-color: var(--accent);
+            color: var(--dark);
+        }
+
+        .btn-primary:hover {
+            background-color: #ffca28;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: white;
+            border: 1px solid white;
+        }
+
+        .btn-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        /* مین کنٹینر */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* سرچ اور فلٹر */
+        .search-filter {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+
+        .category-filter {
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            background-color: white;
+            cursor: pointer;
+        }
+
+        /* اشتہارات گرڈ */
+        .ads-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .ad-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .ad-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .ad-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 1px solid #eee;
+        }
+
+        .ad-details {
+            padding: 1.25rem;
+        }
+
+        .ad-title {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+            color: var(--dark);
+        }
+
+        .ad-price {
+            color: var(--primary);
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ad-category {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            color: #555;
+        }
+
+        /* پیجینیشن */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .page-btn {
+            padding: 0.6rem 1rem;
+            border: 1px solid #ddd;
+            background-color: white;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .page-btn:hover {
+            background-color: #f0f0f0;
+        }
+
+        .page-btn.active {
+            background-color: var(--primary);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* ماڈل سٹائلز */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 2rem;
+            position: relative;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            animation: slideUp 0.4s;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #777;
+            transition: all 0.2s;
+        }
+
+        .close-modal:hover {
+            color: var(--danger);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+            text-align: center;
+            font-size: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        /* فارم سٹائلز */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0, 102, 204, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        /* فائل اپلوڈ */
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .file-upload-preview {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .file-preview {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #eee;
+            position: relative;
+            transition: all 0.3s;
+        }
+
+        .file-preview:hover {
+            transform: scale(1.05);
+            border-color: var(--primary);
+        }
+
+        .remove-image {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            background-color: var(--danger);
+            color: white;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border: 2px solid white;
+        }
+
+        .submit-btn {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            margin-top: 1rem;
+            width: 100%;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            background-color: var(--secondary);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* اشتہار کی تفصیل */
+        .ad-detail-images {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+
+        .ad-detail-main-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 1.5rem;
+            border: 1px solid #eee;
+            background-color: #f9f9f9;
+        }
+
+        .ad-detail-thumbnail {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .ad-detail-thumbnail:hover, .ad-detail-thumbnail.active {
+            border-color: var(--primary);
+            transform: scale(1.05);
+        }
+
+        .ad-detail-info {
+            margin-bottom: 1.5rem;
+        }
+
+        .ad-detail-price {
+            font-size: 1.8rem;
+            color: var(--primary);
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+
+        .ad-detail-description {
+            white-space: pre-line;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            color: #555;
+        }
+
+        .ad-detail-meta {
+            display: flex;
+            justify-content: space-between;
+            color: #777;
+            font-size: 0.95rem;
+            border-top: 1px solid #eee;
+            padding-top: 1rem;
+            margin-top: 1rem;
+        }
+
+        /* ایڈمن پینل */
+        .admin-ad {
+            background-color: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--warning);
+        }
+
+        .admin-ad.approved {
+            border-left-color: var(--success);
+        }
+
+        .admin-ad h4 {
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-ad p {
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-ad-meta {
+            display: flex;
+            gap: 1rem;
+            color: #777;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-actions {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.85rem;
+            border-radius: 4px;
+        }
+
+        .btn-success {
+            background-color: var(--success);
+            color: white;
+        }
+
+        .btn-danger {
+            background-color: var(--danger);
+            color: white;
+        }
+
+        .btn-warning {
+            background-color: var(--warning);
+            color: white;
+        }
+
+        /* فوٹر */
+        footer {
+            background-color: var(--secondary);
+            color: white;
+            padding: 2.5rem 1rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+        }
+
+        .footer-link:hover {
+            color: var(--accent);
+            text-decoration: underline;
+        }
+
+        .footer-contact {
+            text-align: center;
+            margin-top: 1.5rem;
+            font-size: 0.95rem;
+            line-height: 1.8;
+        }
+
+        .admin-note {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* رینسپانسیو سٹائلز */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+            
+            .nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+            
+            .ads-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            }
+            
+            .search-filter {
+                flex-direction: column;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 0.6rem;
+                font-size: 0.9rem;
+            }
+            
+            .ad-detail-thumbnail {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .admin-actions {
+                gap: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- ہیڈر -->
+    <header>
+        <div class="header-container">
+            <div class="logo" id="flagBtn">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Flag_of_Pakistan.svg" alt="پاکستان کا جھنڈا">
+                <div class="logo-text">نیا بازار</div>
+            </div>
+            <div class="nav-buttons">
+                <button class="btn btn-primary" id="sellBtn">
+                    <i class="fas fa-plus"></i> نیا اشتہار
+                </button>
+                <button class="btn btn-secondary" id="adminPanelBtn" style="display: none;">
+                    <i class="fas fa-user-shield"></i> ایڈمن پینل
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- مین مواد -->
+    <div class="container">
+        <!-- تلاش اور فلٹر -->
+        <div class="search-filter">
+            <input type="text" class="search-box" id="searchBox" placeholder="اشتہار تلاش کریں...">
+            <select class="category-filter" id="categoryFilter">
+                <option value="">تمام زمروں</option>
+                <option value="گاڑیاں">گاڑیاں</option>
+                <option value="موبائل">موبائل</option>
+                <option value="جائیداد">جائیداد</option>
+                <option value="الیکٹرانکس">الیکٹرانکس</option>
+                <option value="فرنیچر">فرنیچر</option>
+                <option value="کپڑے">کپڑے</option>
+                <option value="دیگر">دیگر</option>
+            </select>
+        </div>
+
+        <!-- اشتہارات گرڈ -->
+        <div class="ads-grid" id="adsContainer">
+            <!-- اشتہارات یہاں لوڈ ہوں گے -->
+        </div>
+
+        <!-- پیجینیشن -->
+        <div class="pagination" id="pagination"></div>
+    </div>
+
+    <!-- نیا اشتہار ماڈل -->
+    <div class="modal" id="adModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAdModal">&times;</span>
+            <h2 class="modal-title">نیا اشتہار شامل کریں</h2>
+            <form id="adForm">
+                <div class="form-group">
+                    <label for="title" class="form-label">عنوان</label>
+                    <input type="text" id="title" class="form-control" placeholder="اشتہار کا عنوان" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="description" class="form-label">تفصیل</label>
+                    <textarea id="description" class="form-control" placeholder="مصنوعات کی مکمل تفصیل" required></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label for="price" class="form-label">قیمت (روپے میں)</label>
+                    <input type="number" id="price" class="form-control" placeholder="مثال: 5000" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="category" class="form-label">زمرہ</label>
+                    <select id="category" class="form-control" required>
+                        <option value="">زمرہ منتخب کریں</option>
+                        <option value="گاڑیاں">گاڑیاں</option>
+                        <option value="موبائل">موبائل</option>
+                        <option value="جائیداد">جائیداد</option>
+                        <option value="الیکٹرانکس">الیکٹرانکس</option>
+                        <option value="فرنیچر">فرنیچر</option>
+                        <option value="کپڑے">کپڑے</option>
+                        <option value="دیگر">دیگر</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="form-label">تصاویر شامل کریں (زیادہ سے زیادہ 3 تصاویر)</label>
+                    <div class="file-upload">
+                        <input type="file" id="imageUpload" accept="image/*" multiple class="form-control">
+                        <div class="file-upload-preview" id="imagePreview"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contact" class="form-label">رابطہ نمبر</label>
+                    <input type="tel" id="contact" class="form-control" placeholder="03123456789" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location" class="form-label">مقام</label>
+                    <input type="text" id="location" class="form-control" placeholder="شہر یا علاقہ">
+                </div>
+                
+                <button type="submit" class="submit-btn">اشتہار شائع کریں</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- اشتہار کی تفصیل ماڈل -->
+    <div class="modal" id="adDetailModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAdDetailModal">&times;</span>
+            <div id="adDetailContent"></div>
+        </div>
+    </div>
+
+    <!-- ایڈمن پینل ماڈل -->
+    <div class="modal" id="adminPanelModal">
+        <div class="modal-content">
+            <span class="close-modal" id="closeAdminModal">&times;</span>
+            <h2 class="modal-title">ایڈمن پینل</h2>
+            <div id="adminPanelContent">
+                <h3 style="margin-bottom: 1rem;">زیر التوا اشتہارات</h3>
+                <div id="pendingAdsList"></div>
+                
+                <h3 style="margin: 2rem 0 1rem;">تمام اشتہارات</h3>
+                <div id="allAdsList"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- فوٹر -->
+    <footer>
+        <div class="footer-container">
+            <div class="footer-links">
+                <a href="#" class="footer-link">ہمارے بارے میں</a>
+                <a href="#" class="footer-link">رابطہ کریں</a>
+                <a href="#" class="footer-link">شرائط و ضوابط</a>
+                <a href="#" class="footer-link">رازداری کی پالیسی</a>
+            </div>
+            <div class="footer-contact">
+                <p>رابطہ: 03192540900 | ای میل: yesmis444@gmail.com</p>
+                <p>© 2023 نیا بازار. تمام حقوق محفوظ ہیں۔</p>
+            </div>
+            <div class="admin-note">
+                نوٹ: ایڈمن آن لائن کسی بھی قسم کے لین دین کی ذمہ داری نہیں لیتا ہے۔ ہر اشتہار کے لیے ایڈمن ایزی پیسہ، جیز کیش یا بینک ٹرانسفر سے 1000 روپے لیتا ہے۔ ایڈمن کی اپروول کے بغیر کوئی اشتہار شائع نہیں ہو سکتا۔
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // گلوبل متغیرات
+        let isAdmin = false;
+        let currentPage = 1;
+        const adsPerPage = 24; // ہر صفحے پر 24 اشتہارات
+        let allAds = [];
+        let selectedImages = [];
+        
+        // DOM عناصر
+        const adsContainer = document.getElementById('adsContainer');
+        const pagination = document.getElementById('pagination');
+        const searchBox = document.getElementById('searchBox');
+        const categoryFilter = document.getElementById('categoryFilter');
+        const sellBtn = document.getElementById('sellBtn');
+        const adminPanelBtn = document.getElementById('adminPanelBtn');
+        const flagBtn = document.getElementById('flagBtn');
+        const adModal = document.getElementById('adModal');
+        const adDetailModal = document.getElementById('adDetailModal');
+        const adminPanelModal = document.getElementById('adminPanelModal');
+        const closeAdModal = document.getElementById('closeAdModal');
+        const closeAdDetailModal = document.getElementById('closeAdDetailModal');
+        const closeAdminModal = document.getElementById('closeAdminModal');
+        const adForm = document.getElementById('adForm');
+        const imageUpload = document.getElementById('imageUpload');
+        const imagePreview = document.getElementById('imagePreview');
+        const pendingAdsList = document.getElementById('pendingAdsList');
+        const allAdsList = document.getElementById('allAdsList');
+        const adDetailContent = document.getElementById('adDetailContent');
+        
+        // ایپلیکیشن شروع کریں
+        function init() {
+            loadAds();
+            setupEventListeners();
+            
+            // چیک کریں کہ ایڈمن پاسورڈ سیٹ ہے یا نہیں
+            if (localStorage.getItem('admin_pass')) {
+                const pass = prompt('ایڈمن پاسورڈ درج کریں:');
+                if (pass === localStorage.getItem('admin_pass')) {
+                    isAdmin = true;
+                    adminPanelBtn.style.display = 'inline-block';
+                    alert('ایڈمن موڈ فعال ہو گیا');
+                }
+            }
+        }
+        
+        // ایونٹ لسٹنرز سیٹ کریں
+        function setupEventListeners() {
+            // تلاش اور فلٹر
+            searchBox.addEventListener('input', debounce(() => {
+                currentPage = 1;
+                loadAds();
+            }, 300));
+            
+            categoryFilter.addEventListener('change', () => {
+                currentPage = 1;
+                loadAds();
+            });
+            
+            // بٹنز
+            sellBtn.addEventListener('click', () => {
+                selectedImages = [];
+                imagePreview.innerHTML = '';
+                adForm.reset();
+                adModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            adminPanelBtn.addEventListener('click', () => {
+                loadAdminPanel();
+                adminPanelModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden';
+            });
+            
+            flagBtn.addEventListener('click', () => {
+                const savedPass = localStorage.getItem('admin_pass');
+                if (!savedPass) {
+                    const newPass = prompt('نیا ایڈمن پاسورڈ سیٹ کریں:');
+                    if (newPass) {
+                        localStorage.setItem('admin_pass', newPass);
+                        alert('پاسورڈ سیٹ ہو گیا! دوبارہ جھنڈے پر کلک کریں اور لاگ ان کریں۔');
+                    }
+                    return;
+                }
+                
+                const pass = prompt('ایڈمن پاسورڈ درج کریں:');
+                if (pass === savedPass) {
+                    isAdmin = true;
+                    adminPanelBtn.style.display = 'inline-block';
+                    alert('ایڈمن موڈ فعال ہو گیا');
+                } else {
+                    alert('غلط پاسورڈ!');
+                }
+            });
+            
+            // ماڈلز بند کریں
+            closeAdModal.addEventListener('click', () => {
+                adModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            closeAdDetailModal.addEventListener('click', () => {
+                adDetailModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            closeAdminModal.addEventListener('click', () => {
+                adminPanelModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
+            });
+            
+            window.addEventListener('click', (e) => {
+                if (e.target === adModal) {
+                    adModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                if (e.target === adDetailModal) {
+                    adDetailModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+                if (e.target === adminPanelModal) {
+                    adminPanelModal.style.display = 'none';
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // تصاویر اپلوڈ
+            imageUpload.addEventListener('change', handleImageUpload);
+            
+            // فارم جمع کروائیں
+            adForm.addEventListener('submit', submitAdForm);
+        }
+        
+        // ڈیباؤنس فنکشن
+        function debounce(func, timeout = 300) {
+            let timer;
+            return (...args) => {
+                clearTimeout(timer);
+                timer = setTimeout(() => { func.apply(this, args); }, timeout);
+            };
+        }
+        
+        // تصاویر اپلوڈ ہینڈل کریں (زیادہ سے زیادہ 3 تصاویر)
+        function handleImageUpload(e) {
+            const files = e.target.files;
+            selectedImages = [];
+            imagePreview.innerHTML = '';
+            
+            // صرف 3 تصاویر تک محدود
+            const filesToUpload = Array.from(files).slice(0, 3);
+            
+            if (filesToUpload.length > 3) {
+                alert('آپ زیادہ سے زیادہ 3 تصاویر اپلوڈ کر سکتے ہیں');
+                return;
+            }
+            
+            filesToUpload.forEach((file, index) => {
+                if (!file.type.match('image.*')) {
+                    alert('صرف تصاویر اپلوڈ کی جا سکتی ہیں');
+                    return;
+                }
+                
+                const reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    selectedImages.push(event.target.result);
+                    
+                    const previewContainer = document.createElement('div');
+                    previewContainer.style.position = 'relative';
+                    
+                    const img = document.createElement('img');
+                    img.src = event.target.result;
+                    img.className = 'file-preview';
+                    
+                    const removeBtn = document.createElement('div');
+                    removeBtn.className = 'remove-image';
+                    removeBtn.innerHTML = '×';
+                    removeBtn.onclick = (e) => {
+                        e.stopPropagation();
+                        removeImage(index);
+                    };
+                    
+                    previewContainer.appendChild(img);
+                    previewContainer.appendChild(removeBtn);
+                    imagePreview.appendChild(previewContainer);
+                };
+                
+                reader.readAsDataURL(file);
+            });
+        }
+        
+        // تصویر حذف کریں
+        function removeImage(index) {
+            selectedImages.splice(index, 1);
+            imagePreview.innerHTML = '';
+            
+            selectedImages.forEach((img, i) => {
+                const previewContainer = document.createElement('div');
+                previewContainer.style.position = 'relative';
+                
+                const imgElement = document.createElement('img');
+                imgElement.src = img;
+                imgElement.className = 'file-preview';
+                
+                const removeBtn = document.createElement('div');
+                removeBtn.className = 'remove-image';
+                removeBtn.innerHTML = '×';
+                removeBtn.onclick = (e) => {
+                    e.stopPropagation();
+                    removeImage(i);
+                };
+                
+                previewContainer.appendChild(imgElement);
+                previewContainer.appendChild(removeBtn);
+                imagePreview.appendChild(previewContainer);
+            });
+            
+            // فائل ان پٹ کو ری سیٹ کریں
+            imageUpload.value = '';
+        }
+        
+        // اشتہارات لوڈ کریں
+        function loadAds() {
+            const savedAds = localStorage.getItem('naya_bazar_ads');
+            allAds = savedAds ? JSON.parse(savedAds) : [];
+            
+            // اگر کوئی اشتہار نہیں ہے تو مثالی اشتہارات شامل کریں
+            if (allAds.length === 0) {
+                allAds = [
+                    {
+                        id: '1',
+                        title: 'ٹویوٹا کورولا 2020',
+                        description: 'ٹویوٹا کورولا 2020 ماڈل، آٹومیٹک، 2500cc، مکمل اوپرینٹڈ، صرف 25000 کلومیٹر',
+                        price: 2500000,
+                        category: 'گاڑیاں',
+                        contact: '03123456789',
+                        location: 'کراچی',
+                        images: ['https://via.placeholder.com/600x400?text=Toyota+Corolla+2020'],
+                        date: Date.now() - 10000000,
+                        approved: true
+                    },
+                    {
+                        id: '2',
+                        title: 'آئی فون 13 پرو',
+                        description: 'آئی فون 13 پرو 256GB، گرافائیٹ، مکمل باکس، وارنٹی باقی',
+                        price: 180000,
+                        category: 'موبائل',
+                        contact: '03216549870',
+                        location: 'لاہور',
+                        images: ['https://via.placeholder.com/600x400?text=iPhone+13+Pro'],
+                        date: Date.now() - 5000000,
+                        approved: true
+                    },
+                    {
+                        id: '3',
+                        title: '3 کمرے کا فلیٹ',
+                        description: '3 کمرے، 2 باتھ روم، باورچی خانہ، 1200 مربع فٹ، مرکزی مقام پر',
+                        price: 35000,
+                        category: 'جائیداد',
+                        contact: '03331234567',
+                        location: 'اسلام آباد',
+                        images: ['https://via.placeholder.com/600x400?text=3+Bed+Flat'],
+                        date: Date.now() - 2000000,
+                        approved: true
+                    }
+                ];
+                localStorage.setItem('naya_bazar_ads', JSON.stringify(allAds));
+            }
+            
+            // اشتہارات کو فلٹر کریں
+            const searchText = searchBox.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            
+            let filteredAds = allAds.filter(ad => {
+                const matchesSearch = ad.title.toLowerCase().includes(searchText) || 
+                                     ad.description.toLowerCase().includes(searchText) ||
+                                     (ad.location && ad.location.toLowerCase().includes(searchText));
+                const matchesCategory = selectedCategory === '' || ad.category === selectedCategory;
+                return matchesSearch && matchesCategory && (ad.approved || isAdmin);
+            });
+            
+            // تاریخ کے لحاظ سے ترتیب دیں (نئے پہلے)
+            filteredAds.sort((a, b) => b.date - a.date);
+            
+            renderAds(filteredAds);
+            renderPagination(filteredAds.length);
+        }
+        
+        // اشتہارات رینڈر کریں
+        function renderAds(ads) {
+            adsContainer.innerHTML = '';
+            
+            const start = (currentPage - 1) * adsPerPage;
+            const paginatedAds = ads.slice(start, start + adsPerPage);
+            
+            if (paginatedAds.length === 0) {
+                adsContainer.innerHTML = `
+                    <div style="grid-column: 1/-1; text-align: center; padding: 2rem;">
+                        <i class="fas fa-search" style="font-size: 3rem; color: #ccc; margin-bottom: 1rem;"></i>
+                        <h3 style="color: #666;">کوئی اشتہار دستیاب نہیں</h3>
+                        <p>اپنی تلاش کے مطابق کوئی اشتہار نہیں ملا</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            paginatedAds.forEach(ad => {
+                const adCard = document.createElement('div');
+                adCard.className = 'ad-card';
+                adCard.innerHTML = `
+                    <img src="${ad.images[0]}" class="ad-image" alt="${ad.title}" loading="lazy">
+                    <div class="ad-details">
+                        <div class="ad-title">${ad.title}</div>
+                        <div class="ad-price">${ad.price.toLocaleString()} روپے</div>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 0.5rem;">
+                            <span class="ad-category">${ad.category}</span>
+                            ${ad.location ? `<span style="font-size: 0.85rem; color: #666;"><i class="fas fa-map-marker-alt"></i> ${ad.location}</span>` : ''}
+                        </div>
+                    </div>
+                `;
+                
+                adCard.addEventListener('click', () => showAdDetail(ad));
+                adsContainer.appendChild(adCard);
+            });
+        }
+        
+        // پیجینیشن رینڈر کریں
+        function renderPagination(totalAds) {
+            pagination.innerHTML = '';
+            const totalPages = Math.ceil(totalAds / adsPerPage);
+            
+            if (totalPages <= 1) return;
+            
+            // پچھلا بٹن
+            if (currentPage > 1) {
+                const prevBtn = document.createElement('button');
+                prevBtn.className = 'page-btn';
+                prevBtn.innerHTML = '<i class="fas fa-chevron-right"></i> پچھلا';
+                prevBtn.addEventListener('click', () => {
+                    currentPage--;
+                    loadAds();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(prevBtn);
+            }
+            
+            // پیج نمبرز
+            const maxVisiblePages = 5;
+            let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+            let endPage = Math.min(totalPages, startPage + maxVisiblePages - 1);
+            
+            if (endPage - startPage + 1 < maxVisiblePages) {
+                startPage = Math.max(1, endPage - maxVisiblePages + 1);
+            }
+            
+            if (startPage > 1) {
+                const firstBtn = document.createElement('button');
+                firstBtn.className = 'page-btn';
+                firstBtn.textContent = '1';
+                firstBtn.addEventListener('click', () => {
+                    currentPage = 1;
+                    loadAds();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(firstBtn);
+                
+                if (startPage > 2) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.style.padding = '0.5rem';
+                    pagination.appendChild(ellipsis);
+                }
+            }
+            
+            for (let i = startPage; i <= endPage; i++) {
+                const pageBtn = document.createElement('button');
+                pageBtn.className = `page-btn ${i === currentPage ? 'active' : ''}`;
+                pageBtn.textContent = i;
+                pageBtn.addEventListener('click', () => {
+                    currentPage = i;
+                    loadAds();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(pageBtn);
+            }
+            
+            if (endPage < totalPages) {
+                if (endPage < totalPages - 1) {
+                    const ellipsis = document.createElement('span');
+                    ellipsis.textContent = '...';
+                    ellipsis.style.padding = '0.5rem';
+                    pagination.appendChild(ellipsis);
+                }
+                
+                const lastBtn = document.createElement('button');
+                lastBtn.className = 'page-btn';
+                lastBtn.textContent = totalPages;
+                lastBtn.addEventListener('click', () => {
+                    currentPage = totalPages;
+                    loadAds();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(lastBtn);
+            }
+            
+            // اگلا بٹن
+            if (currentPage < totalPages) {
+                const nextBtn = document.createElement('button');
+                nextBtn.className = 'page-btn';
+                nextBtn.innerHTML = 'اگلا <i class="fas fa-chevron-left"></i>';
+                nextBtn.addEventListener('click', () => {
+                    currentPage++;
+                    loadAds();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                });
+                pagination.appendChild(nextBtn);
+            }
+        }
+        
+        // اشتہار کی تفصیل دکھائیں
+        function showAdDetail(ad) {
+            adDetailContent.innerHTML = `
+                <h2 style="margin-bottom: 1rem;">${ad.title}</h2>
+                <div class="ad-detail-images">
+                    ${ad.images.map((img, i) => `
+                        <img src="${img}" class="ad-detail-thumbnail ${i === 0 ? 'active' : ''}" 
+                             onclick="changeMainImage(this, '${img}')" alt="تصویر ${i + 1}">
+                    `).join('')}
+                </div>
+                <img src="${ad.images[0]}" class="ad-detail-main-image" id="mainAdImage" alt="${ad.title}">
+                <div class="ad-detail-info">
+                    <div class="ad-detail-price">${ad.price.toLocaleString()} روپے</div>
+                    ${ad.location ? `<div style="margin: 0.5rem 0;"><i class="fas fa-map-marker-alt"></i> <strong>مقام:</strong> ${ad.location}</div>` : ''}
+                    <div class="ad-detail-description">${ad.description}</div>
+                    <div class="ad-detail-meta">
+                        <span><i class="fas fa-tag"></i> زمرہ: ${ad.category}</span>
+                        <span><i class="fas fa-phone"></i> رابطہ: ${ad.contact}</span>
+                    </div>
+                </div>
+                ${isAdmin ? `
+                    <div class="admin-actions">
+                        <button class="btn ${ad.approved ? 'btn-warning' : 'btn-success'}" 
+                                onclick="toggleAdApproval('${ad.id}')">
+                            <i class="fas fa-${ad.approved ? 'times' : 'check'}"></i> ${ad.approved ? 'منسوخ کریں' : 'منظور کریں'}
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteAd('${ad.id}')">
+                            <i class="fas fa-trash"></i> حذف کریں
+                        </button>
+                    </div>
+                ` : ''}
+            `;
+            
+            adDetailModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        
+        // مین تصویر تبدیل کریں
+        window.changeMainImage = function(thumb, imgSrc) {
+            document.querySelectorAll('.ad-detail-thumbnail').forEach(t => t.classList.remove('active'));
+            thumb.classList.add('active');
+            document.getElementById('mainAdImage').src = imgSrc;
+        };
+        
+        // اشتہار جمع کروائیں
+        function submitAdForm(e) {
+            e.preventDefault();
+            
+            if (selectedImages.length === 0) {
+                alert('براہ کرم کم از کم ایک تصویر شامل کریں');
+                return;
+            }
+            
+            if (selectedImages.length > 3) {
+                alert('زیادہ سے زیادہ 3 تصاویر اپلوڈ کر سکتے ہیں');
+                return;
+            }
+            
+            const newAd = {
+                id: Date.now().toString(),
+                title: document.getElementById('title').value,
+                description: document.getElementById('description').value,
+                price: parseInt(document.getElementById('price').value),
+                category: document.getElementById('category').value,
+                contact: document.getElementById('contact').value,
+                location: document.getElementById('location').value,
+                images: selectedImages,
+                date: Date.now(),
+                approved: isAdmin // اگر ایڈمن ہے تو خود بخود منظور
+            };
+            
+            // لوکل اسٹوریج میں محفوظ کریں
+            const savedAds = localStorage.getItem('naya_bazar_ads');
+            const ads = savedAds ? JSON.parse(savedAds) : [];
+            ads.push(newAd);
+            localStorage.setItem('naya_bazar_ads', JSON.stringify(ads));
+            allAds = ads;
+            
+            // فارم ری سیٹ کریں اور ماڈل بند کریں
+            adForm.reset();
+            imagePreview.innerHTML = '';
+            selectedImages = [];
+            adModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            // اشتہارات دوبارہ لوڈ کریں
+            loadAds();
+            
+            alert(`اشتہار کامیابی سے شامل ہو گیا${isAdmin ? '' : '۔ ایڈمن کی منظوری کے بعد یہ ظاہر ہو گا'}`);
+        }
+        
+        // ایڈمن پینل لوڈ کریں
+        function loadAdminPanel() {
+            pendingAdsList.innerHTML = '';
+            allAdsList.innerHTML = '';
+            
+            const pendingAds = allAds.filter(ad => !ad.approved);
+            const approvedAds = allAds.filter(ad => ad.approved);
+            
+            if (pendingAds.length === 0) {
+                pendingAdsList.innerHTML = `
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-check-circle" style="font-size: 2rem; color: #28a745; margin-bottom: 0.5rem;"></i>
+                        <p>کوئی زیر التوا اشتہار موجود نہیں</p>
+                    </div>
+                `;
+            } else {
+                pendingAds.forEach(ad => {
+                    const adElement = createAdminAdElement(ad);
+                    pendingAdsList.appendChild(adElement);
+                });
+            }
+            
+            if (allAds.length === 0) {
+                allAdsList.innerHTML = `
+                    <div style="text-align: center; padding: 1rem; background: #f8f9fa; border-radius: 8px;">
+                        <i class="fas fa-info-circle" style="font-size: 2rem; color: #17a2b8; margin-bottom: 0.5rem;"></i>
+                        <p>کوئی اشتہار موجود نہیں</p>
+                    </div>
+                `;
+            } else {
+                allAds.forEach(ad => {
+                    const adElement = createAdminAdElement(ad);
+                    allAdsList.appendChild(adElement);
+                });
+            }
+        }
+        
+        // ایڈمن اشتہار عنصر بنائیں
+        function createAdminAdElement(ad) {
+            const adElement = document.createElement('div');
+            adElement.className = `admin-ad ${ad.approved ? 'approved' : ''}`;
+            adElement.innerHTML = `
+                <h4>${ad.title}</h4>
+                <div class="admin-ad-meta">
+                    <span><i class="fas fa-tag"></i> ${ad.category}</span>
+                    <span><i class="fas fa-money-bill-wave"></i> ${ad.price.toLocaleString()} روپے</span>
+                    <span><i class="fas fa-clock"></i> ${new Date(ad.date).toLocaleString()}</span>
+                </div>
+                <p>${ad.description.substring(0, 100)}${ad.description.length > 100 ? '...' : ''}</p>
+                <div class="admin-actions">
+                    <button class="btn btn-sm ${ad.approved ? 'btn-warning' : 'btn-success'}" 
+                            onclick="toggleAdApproval('${ad.id}')">
+                        <i class="fas fa-${ad.approved ? 'times' : 'check'}"></i> ${ad.approved ? 'منسوخ کریں' : 'منظور کریں'}
+                    </button>
+                    <button class="btn btn-sm btn-danger" onclick="deleteAd('${ad.id}')">
+                        <i class="fas fa-trash"></i> حذف کریں
+                    </button>
+                    <button class="btn btn-sm btn-primary" onclick="viewAd('${ad.id}')">
+                        <i class="fas fa-eye"></i> دیکھیں
+                    </button>
+                </div>
+            `;
+            return adElement;
+        }
+        
+        // اشتہار کی منظوری تبدیل کریں
+        window.toggleAdApproval = function(adId) {
+            const ads = allAds.map(ad => {
+                if (ad.id === adId) {
+                    return {...ad, approved: !ad.approved};
+                }
+                return ad;
+            });
+            
+            localStorage.setItem('naya_bazar_ads', JSON.stringify(ads));
+            allAds = ads;
+            loadAds();
+            loadAdminPanel();
+            
+            // اگر اشتہار کی تفصیل دیکھی جا رہی ہے تو ریفریش کریں
+            if (adDetailModal.style.display === 'flex') {
+                const currentAd = ads.find(ad => ad.id === adId);
+                if (currentAd) showAdDetail(currentAd);
+            }
+            
+            alert('اشتہار کی حیثیت تبدیل ہو گئی');
+        };
+        
+        // اشتہار حذف کریں
+        window.deleteAd = function(adId) {
+            if (!confirm('کیا آپ واقعی یہ اشتہار حذف کرنا چاہتے ہیں؟ یہ عمل واپس نہیں ہو سکتا۔')) return;
+            
+            const ads = allAds.filter(ad => ad.id !== adId);
+            localStorage.setItem('naya_bazar_ads', JSON.stringify(ads));
+            allAds = ads;
+            loadAds();
+            loadAdminPanel();
+            adDetailModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            
+            alert('اشتہار حذف ہو گیا');
+        };
+        
+        // اشتہار دیکھیں
+        window.viewAd = function(adId) {
+            const ad = allAds.find(ad => ad.id === adId);
+            if (ad) {
+                showAdDetail(ad);
+                adminPanelModal.style.display = 'none';
+            }
+        };
+        
+        // ایپلیکیشن شروع کریں
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
